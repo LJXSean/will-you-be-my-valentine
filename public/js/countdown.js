@@ -15,12 +15,21 @@ var x = setInterval(function () {
 	var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-	// Display the result in the element with id="time"
-	document.getElementById("time").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-
 	// If the countdown is over, write some text
-	if (distance < 0) {
-		clearInterval(x);
-		document.getElementById("time").innerHTML = "EXPIRED";
+	if (distance <= 0) {
+		let banner = document.getElementById("bot");
+		banner.src = "./public/images/telebot.png";
+		refreshBanner();
+	} else {
+		// Display the result in the element with id="time"
+		document.getElementById("time").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 	}
 }, 1000);
+
+function refreshBanner() {
+	// Reload banner gif to force load
+	let banner = document.getElementById("bot");
+	let src = banner.src;
+	banner.src = "";
+	banner.src = src;
+}
