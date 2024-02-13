@@ -27,6 +27,7 @@ body {
 	border: none;
 	cursor: pointer;
 	margin-top: 10px;
+	visibility: visible;
 
 	p {
 		margin: 0;

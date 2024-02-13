@@ -18,7 +18,7 @@ var x = setInterval(function () {
 	// If the countdown is over, write some text
 	if (distance <= 0) {
 		let banner = document.getElementById("bot");
-		banner.src = "./public/images/telebot.png";
+		banner.src = "./public/images/telebot.jpg";
 		refreshBanner();
 	} else {
 		// Display the result in the element with id="time"

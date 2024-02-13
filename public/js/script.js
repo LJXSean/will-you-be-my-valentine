@@ -55,7 +55,7 @@ document.addEventListener("mousemove", function (event) {
 	const distanceY = Math.abs(centerY - event.clientY);
 
 	// Define a proximity threshold (in pixels)
-	const threshold = 100;
+	const threshold = 70;
 
 	// Check if the mouse is within the proximity threshold
 	if (distanceX < threshold && distanceY < threshold) {
@@ -87,22 +87,54 @@ const incrementYes = () => {
 	}
 };
 
+const pythagoresTheorem = (height, width) => {
+	return Math.sqrt(height ** 2 + width ** 2);
+};
+
 const runAway = () => {
 	cat.style.visibility = "visible";
+	no_button.style.visibility = "hidden";
 	const maxHeight = window.innerHeight - no_container.offsetHeight;
 	const maxWidth = window.innerWidth - no_container.offsetWidth;
 
-	const randomY = Math.floor(Math.random() * maxHeight);
-	const randomX = Math.floor(Math.random() * maxWidth);
+	// Calculate the distance from the center of the element to the mouse position
+	const rect = no_button.getBoundingClientRect();
+
+	// Calculate the center of the element
+	const centerX = rect.left + rect.width / 2;
+	const centerY = rect.top + rect.height / 2;
+
+	const minDist = pythagoresTheorem(maxHeight * 0.5, maxWidth * 0.5);
+	let dist = (randomY = randomX = 0);
+
+	while (dist < minDist) {
+		randomY = Math.floor(Math.random() * maxHeight);
+		randomX = Math.floor(Math.random() * maxWidth);
+
+		let distanceX = Math.abs(centerX - randomX);
+		let distanceY = Math.abs(centerY - randomY);
+		dist = pythagoresTheorem(distanceX, distanceY);
+	}
+
+	// Angle between horizontal line and new vector
+	const angle = Math.atan2(centerY - randomY, centerX - randomX) * (180 / Math.PI) + 180;
+
+	if (angle < 90 || angle > 270) {
+		cat.style.transform = `rotate(${angle}deg)`;
+	} else {
+		cat.style.transform = `scaleY(-1) rotate(-${angle}deg)`;
+	}
 
 	no_container.style.position = "absolute"; // Changes the positioning to absolute
 	no_container.style.top = randomY + "px"; // Sets the top position
 	no_container.style.left = randomX + "px"; // Sets the left position
-	no_container.style.transition = "top 1s, left 1s";
+	no_container.style.transition = "top 1.2s, left 1.2s";
+
 	setTimeout(() => {
 		cat.style.visibility = "hidden";
+		no_button.style.visibility = "visible";
 		transition = false;
-	}, 900);
+	}, 1300);
 };
 
 yes_button.addEventListener("click", () => {
